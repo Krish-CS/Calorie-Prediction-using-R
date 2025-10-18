@@ -164,12 +164,4 @@ Enter Body Temperature (in °C): 37.5
 
 ---
 
-## 🧑‍💻 Developed By
-
-**Krishkanth K**  
-Department of Computer Science & Engineering  
-2025  
-
----
-
 ⭐ *If you like this project, consider giving it a star on GitHub!* ⭐
