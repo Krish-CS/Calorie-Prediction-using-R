@@ -99,19 +99,19 @@ shiny::runApp("calories_app.R")
 Replace the below placeholders after adding your screenshots:
 
 🟦 **Home Interface**  
-*(Insert Image Here)*
+<img width="1919" height="899" alt="Image" src="https://github.com/user-attachments/assets/0082f191-cf6b-4dff-93d1-f83dfda76de9" />
 
 🟩 **Prediction Result**  
-*(Insert Image Here)*
+<img width="1919" height="894" alt="Image" src="https://github.com/user-attachments/assets/833fd076-a495-456a-919c-da2e914c8e7c" />
 
 🟨 **Correlation Heatmap**  
-*(Insert Image Here)*
+<img width="1919" height="894" alt="Image" src="https://github.com/user-attachments/assets/884cad81-19d2-495b-bc22-bdb2dee36b4d" />
 
 🟧 **Feature Importance Plot**  
-*(Insert Image Here)*
+<img width="1919" height="895" alt="Image" src="https://github.com/user-attachments/assets/1f1e9384-e6d2-4c64-a3b8-5e9b06743a98" />
 
 🟪 **Residual Analysis Plot**  
-*(Insert Image Here)*
+<img width="1919" height="897" alt="Image" src="https://github.com/user-attachments/assets/bbde89ea-9485-4055-ad73-6a5b71a361d4" />
 
 ---
 
