@@ -51,3 +51,125 @@ Install required packages using:
 
 ```r
 install.packages(c("ggplot2", "caret", "corrplot", "ggcorrplot", "shiny", "dplyr", "scales", "gridExtra"))
+```
+
+---
+
+### 2️⃣ Running in Terminal Mode
+
+To run directly in **R Studio Terminal**, execute:
+
+```r
+source("calories_prediction.R")
+```
+
+➡️ **You’ll be prompted to enter:**
+
+```mathematica
+Enter Gender (Male/Female):
+Enter Age:
+Enter Height (in cm):
+Enter Weight (in kg):
+Enter Duration (in minutes):
+Enter Heart Rate:
+Enter Body Temperature (in °C):
+```
+
+📈 After input, all plots (heatmaps, importance charts, residuals, etc.) will automatically appear in the **Plots Pane**.
+
+---
+
+### 3️⃣ Running in Shiny App Mode
+
+For interactive use, execute:
+
+```r
+shiny::runApp("calories_app.R")
+```
+
+🎨 **The app features:**
+- Gradient **blue-to-sea** theme  
+- Tabs for each visualization (Prediction Result, Correlation Heatmap, Feature Importance, Residual Distribution)  
+- Enlarged & styled **prediction output**  
+
+---
+
+## 📸 Screenshots
+
+Replace the below placeholders after adding your screenshots:
+
+🟦 **Home Interface**  
+*(Insert Image Here)*
+
+🟩 **Prediction Result**  
+*(Insert Image Here)*
+
+🟨 **Correlation Heatmap**  
+*(Insert Image Here)*
+
+🟧 **Feature Importance Plot**  
+*(Insert Image Here)*
+
+🟪 **Residual Analysis Plot**  
+*(Insert Image Here)*
+
+---
+
+## 🔍 Visualization Outputs
+
+This project automatically generates:
+
+📊 Correlation Heatmap  
+📈 Feature Importance Comparison  
+📉 Residual Distribution  
+📋 Model Comparison Bar Chart  
+🎯 Final Predicted Result Visualization  
+
+All graphs are **center aligned** and displayed with **attractive color gradients**.
+
+---
+
+## 🎯 Sample Output (Terminal Mode)
+
+```
+Enter Gender (Male/Female): Male
+Enter Age: 25
+Enter Height (in cm): 180
+Enter Weight (in kg): 75
+Enter Duration (in minutes): 60
+Enter Heart Rate: 120
+Enter Body Temperature (in °C): 37.5
+```
+
+**Predicted Calories Burnt:**  
+`245.67 kcal (via Linear Regression)`
+
+---
+
+## 🧮 Model Comparison Results
+
+| Model | Accuracy / RMSE | Remarks |
+|--------|----------------|----------|
+| **Linear Regression** | ✅ Best performance | More stable for continuous calorie values |
+| **Logistic Regression** | Slightly less accurate | Useful for categorical outcomes |
+
+---
+
+## 🌈 Future Enhancements
+
+🔹 Integration with **smartwatch data APIs**  
+🔹 Multi-model **auto selection using cross-validation**  
+🔹 Deployment on a **live Shiny Server**  
+🔹 Export reports as **PDFs**
+
+---
+
+## 🧑‍💻 Developed By
+
+**Krishkanth K**  
+Department of Computer Science & Engineering  
+2025  
+
+---
+
+⭐ *If you like this project, consider giving it a star on GitHub!* ⭐
