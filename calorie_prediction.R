@@ -144,3 +144,190 @@ readline("Press [Enter] to display Prediction vs Actual plot...")
 print(p_pred_act)
 
 cat("\n✅ All visualizations displayed and saved in 'plots/' folder.\n")
+
+# ======================================================================
+#      USER INSIGHT VISUALIZATION SECTION — MATCHING GRADIENT STYLE
+# ======================================================================
+
+cat("\n-------------------------------------------------------------\n")
+cat(" 🌈  Creating Gradient-Based User Insight Visualizations...\n")
+cat("-------------------------------------------------------------\n\n")
+
+library(scales)
+library(gridExtra)
+library(grid)   # <-- REQUIRED for textGrob()
+
+
+# Same gradient as scatter
+grad_cols <- c("#ffdee9", "#b5f4fa", "#9bdcff", "#6ecbff", "#4aa3ff", "#1f7cff")
+
+
+# ----------------------------------------------------------------------
+# 1) CLEAN ELEGANT USER CARD (dual-tone gradient, not messy)
+# ----------------------------------------------------------------------
+
+user_card <- ggplot() +
+  
+  annotate("rect", xmin = 0, xmax = 1, ymin = 0, ymax = 1,
+           fill = alpha("#b5f4fa", 0.65), color = NA) +
+  
+  annotate("rect", xmin = 0.03, xmax = 0.97, ymin = 0.03, ymax = 0.97,
+           fill = alpha("#e7f7ff", 0.85), color = NA) +
+  
+  annotate("text", x = 0.5, y = 0.89,
+           label = "USER PROFILE SUMMARY",
+           size = 7, fontface = "bold", color = "#004aad",
+           hjust = 0.5) +
+  
+  # left column
+  annotate("text", x = 0.10, y = 0.78, label = paste("Gender:", gender),
+           hjust = 0, size = 4.8, color = "#003f5c") +
+  annotate("text", x = 0.10, y = 0.70, label = paste("Age:", age),
+           hjust = 0, size = 4.8, color = "#003f5c") +
+  annotate("text", x = 0.10, y = 0.62, label = paste("Height:", height, "cm"),
+           hjust = 0, size = 4.8, color = "#003f5c") +
+  annotate("text", x = 0.10, y = 0.54, label = paste("Weight:", weight, "kg"),
+           hjust = 0, size = 4.8, color = "#003f5c") +
+  annotate("text", x = 0.10, y = 0.46, label = paste("BMI:", round(bmi, 2)),
+           hjust = 0, size = 4.8, color = "#003f5c") +
+  annotate("text", x = 0.10, y = 0.38, label = paste("Duration:", duration, "min"),
+           hjust = 0, size = 4.8, color = "#003f5c") +
+  annotate("text", x = 0.10, y = 0.30, label = paste("Heart Rate:", heart_rate),
+           hjust = 0, size = 4.8, color = "#003f5c") +
+  
+  # prediction
+  annotate("text", x = 0.75, y = 0.58,
+           label = "Predicted Calories",
+           size = 5.3, fontface = "bold", color = "#1f7cff") +
+  annotate("text", x = 0.75, y = 0.43,
+           label = paste0(round(pred, 1), " kcal"),
+           size = 8.0, fontface = "bold", color = "#ff003c") +
+  
+  theme_void()
+
+ggsave("plots/user_summary_card.png", user_card, width = 10, height = 6)
+readline("Press Enter to view User Summary Card...")
+print(user_card)
+
+
+
+# ----------------------------------------------------------------------
+# Helper: create exact gradient for lines
+# ----------------------------------------------------------------------
+
+gradient_line_df <- function(x, y, cols) {
+  n <- length(x)
+  col_interp <- colorRampPalette(cols)(n)
+  data.frame(x = x, y = y, col = col_interp)
+}
+
+
+
+# ----------------------------------------------------------------------
+# 2) PERFECT GRADIENT-LINE SAFE DENSITY PLOTS
+# ----------------------------------------------------------------------
+
+modern_gradient_density <- function(feature, label, user_value, filename) {
+  
+  dens <- density(calories[[feature]], na.rm = TRUE)
+  df <- gradient_line_df(dens$x, dens$y, grad_cols)
+  
+  p <- ggplot(df, aes(x, y)) +
+    geom_area(fill = alpha("#cfefff", 0.35)) +
+    
+    geom_line(aes(color = col), size = 1.4, show.legend = FALSE) +
+    scale_color_identity() +
+    
+    annotate("segment",
+             x = user_value, xend = user_value,
+             y = 0, yend = max(df$y),
+             color = "#ff003c", size = 1.3) +
+    
+    annotate("text", x = user_value, y = max(df$y),
+             label = paste("You:", round(user_value,2)),
+             color = "#ff003c", vjust = -1, size = 4.8,
+             fontface = "bold") +
+    
+    labs(
+      title = paste(label, "Distribution"),
+      subtitle = "Gradient Styled Density (Matches Scatter Theme)",
+      x = label, y = "Density"
+    ) +
+    theme_minimal(base_family = "Poppins")
+  
+  ggsave(paste0("plots/", filename), p, width = 9, height = 5)
+  readline(paste("Press Enter to view", label, "density..."))
+  print(p)
+}
+
+modern_gradient_density("Age", "Age", age, "insight_age_density.png")
+modern_gradient_density("BMI", "BMI", bmi, "insight_bmi_density.png")
+modern_gradient_density("Duration", "Duration", duration, "insight_duration_density.png")
+
+
+
+# ----------------------------------------------------------------------
+# 3) EXACT GRADIENT SCATTER (unchanged because it's perfect)
+# ----------------------------------------------------------------------
+
+scatter_user <- ggplot(calories, aes(Duration, Calories)) +
+  geom_point(aes(color = Calories), size = 2.2, alpha = 0.7) +
+  scale_color_gradientn(colors = grad_cols) +
+  
+  annotate("point", x = duration, y = pred, size = 7, color = "#ff003c") +
+  annotate("text", x = duration, y = pred,
+           label = paste("You:", round(pred,1), "kcal"),
+           vjust = -1.3, color = "#ff003c", size = 5,
+           fontface = "bold") +
+  
+  labs(title = "Your Predicted Calories in Dataset Context",
+       subtitle = "Gradient Scatter — User Highlighted",
+       x = "Duration (min)", y = "Calories Burnt") +
+  theme_minimal(base_family = "Poppins")
+
+ggsave("plots/user_scatter_highlight.png", scatter_user, width = 9, height = 7)
+readline("Press Enter to view Gradient Scatter...")
+print(scatter_user)
+
+
+
+# ----------------------------------------------------------------------
+# 4) SNAPSHOT HISTOGRAM GRID (gradient styled)
+# ----------------------------------------------------------------------
+
+plot_snap <- function(feature, label, user_value) {
+  
+  ggplot(calories, aes_string(x = feature)) +
+    geom_histogram(aes(y = after_stat(density)),
+                   bins = 25,
+                   fill = alpha(grad_cols[4], 0.8)) +
+    
+    annotate("segment",
+             x = user_value, xend = user_value,
+             y = 0, yend = Inf,
+             color = "#ff003c", size = 1.2) +
+    
+    labs(title = label, x = "", y = "Density") +
+    theme_minimal(base_family = "Poppins")
+}
+
+p1 <- plot_snap("Age", "Age", age)
+p2 <- plot_snap("BMI", "BMI", bmi)
+p3 <- plot_snap("Duration", "Duration", duration)
+p4 <- plot_snap("Heart_Rate", "Heart Rate", heart_rate)
+
+snap_grid <- grid.arrange(
+  p1, p2, p3, p4,
+  ncol = 2,
+  top = textGrob("User vs Dataset — Snapshot Overview",
+                 gp = gpar(fontsize = 16, fontface = "bold"))
+)
+
+ggsave("plots/user_snapshots.png", snap_grid, width = 12, height = 8)
+readline("Press Enter to view Snapshot Grid...")
+grid.draw(snap_grid)
+
+
+
+cat("\n🌈 Gradient User Insight Section Generated Successfully!\n")
+cat("All graphs saved in the 'plots/' folder.\n\n")
